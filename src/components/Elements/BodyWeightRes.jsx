@@ -6,7 +6,7 @@ const BodyWeightResult = ({ bodyWeight }) => (
   <div className="items-center text-center">
     <h2>Your Ideal Body Weight is:</h2>
     <br />
-    <h3 className="text-5xl mb-2"> {bodyWeight} </h3>
+    <h3 className="text-5xl mb-2"> {bodyWeight} Kg </h3>
   </div>
 );
 
