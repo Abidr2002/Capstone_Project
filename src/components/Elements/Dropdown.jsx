@@ -24,7 +24,7 @@ const Dropdown = ({ onSortFieldChange, onSortOrderChange }) => {
   };
 
   const handleSortFieldClick = (field) => {
-    if (field === 'title' || field === 'source' || field === 'date') {
+    if (field === 'title' || field === 'date') {
       onSortFieldChange(field);
       setSortField(field);
     }
@@ -101,18 +101,6 @@ const Dropdown = ({ onSortFieldChange, onSortOrderChange }) => {
                 onClick={() => handleSortFieldClick('title')}
               >
                 Sort By Title
-              </div>
-            </li>
-            <li>
-              <div
-                className={`${
-                  sortField === 'source'
-                    ? 'hidden'
-                    : 'block px-4 py-2 hover:bg-gray-200 cursor-pointer'
-                }`}
-                onClick={() => handleSortFieldClick('source')}
-              >
-                Sort By Source
               </div>
             </li>
           </ul>

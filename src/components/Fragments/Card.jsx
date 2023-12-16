@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import getHealthNews from '../../services/API';
+import getNewsData from '../../services/API';
 
-const formatDate = (isoDate) => {
-  const dateObj = new Date(isoDate);
+const formatDate = (pubDate) => {
+  const dateObj = new Date(pubDate);
   const options = {
     year: 'numeric',
     month: 'numeric',
@@ -15,6 +15,7 @@ const formatDate = (isoDate) => {
   };
   return dateObj.toLocaleDateString('id-ID', options);
 };
+
 // eslint-disable-next-line react/prop-types
 const Card = ({ sortField, sortOrder }) => {
   const [articles, setArticles] = useState([]);
@@ -23,8 +24,12 @@ const Card = ({ sortField, sortOrder }) => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const healthNews = await getHealthNews();
-      setArticles(healthNews);
+      try {
+        const healthNews = await getNewsData();
+        setArticles(healthNews); // Assuming your API response has a 'data' field
+      } catch (error) {
+        console.error('Error fetching health news:', error);
+      }
     };
 
     fetchArticles();
@@ -32,28 +37,20 @@ const Card = ({ sortField, sortOrder }) => {
 
   const handleImageError = (index) => {
     const newArticles = [...articles];
-    newArticles[index].urlToImage =
+    newArticles[index].thumbnail =
       '/images/world-breaking-news-digital-earth-hud-rotating-globe-rotating-free-video.jpg';
     setArticles(newArticles);
   };
 
-  const filteredArticles = articles.filter(
-    (article) => article.source.name !== '[Removed]'
-  );
-
-  const sortedArticles = [...filteredArticles].sort((a, b) => {
+  const sortedArticles = [...articles].sort((a, b) => {
     if (sortField === 'date') {
       return sortOrder === 'asc'
-        ? new Date(a.publishedAt) - new Date(b.publishedAt)
-        : new Date(b.publishedAt) - new Date(a.publishedAt);
+        ? new Date(b.pubDate) - new Date(a.pubDate) // Reverse the order
+        : new Date(a.pubDate) - new Date(b.pubDate);
     } else if (sortField === 'title') {
       return sortOrder === 'asc'
         ? a.title.localeCompare(b.title)
         : b.title.localeCompare(a.title);
-    } else if (sortField === 'source') {
-      return sortOrder === 'asc'
-        ? a.source.name.localeCompare(b.source.name)
-        : b.source.name.localeCompare(a.source.name);
     }
     return 0;
   });
@@ -79,7 +76,7 @@ const Card = ({ sortField, sortOrder }) => {
             <div>
               <img
                 src={
-                  article.urlToImage ||
+                  article.thumbnail ||
                   '/images/world-breaking-news-digital-earth-hud-rotating-globe-rotating-free-video.jpg'
                 }
                 alt={article.title}
@@ -97,10 +94,9 @@ const Card = ({ sortField, sortOrder }) => {
             </div>
             <div className="flex justify-between md:px-1 px-3">
               <div className="row md:text-sm lg:text-base">
-                <p>Source : {article.source.name}</p>
-                <p>{formatDate(article.publishedAt)}</p>
+                <p>{formatDate(article.pubDate)}</p>
               </div>
-              <a href={article.url} target="_blank" rel="noreferrer">
+              <a href={article.link} target="_blank" rel="noreferrer">
                 <button className="bg-sky-900 px-3 py-2 text-white font-semibold rounded md:text-sm">
                   Read More
                 </button>

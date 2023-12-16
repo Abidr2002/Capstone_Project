@@ -5,15 +5,19 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import '../../carousel.css';
 import { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper/modules';
-import getHealthNews from '../../services/API';
+import getNewsData from '../../services/API';
 
 const Carousel = () => {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const healthNews = await getHealthNews();
-      setArticles(healthNews);
+      try {
+        const healthNews = await getNewsData();
+        setArticles(healthNews);
+      } catch (error) {
+        console.error('Error fetching health news:', error);
+      }
     };
 
     fetchArticles();
@@ -21,16 +25,12 @@ const Carousel = () => {
 
   const handleImageError = (index) => {
     const newArticles = [...articles];
-    newArticles[index].urlToImage =
+    newArticles[index].thumbnail =
       '/images/world-breaking-news-digital-earth-hud-rotating-globe-rotating-free-video.jpg';
     setArticles(newArticles);
   };
 
-  const filteredArticles = articles.filter(
-    (article) => article.source.name !== '[Removed]'
-  );
-
-  const displayedArticles = filteredArticles.slice(0, 5);
+  const displayedArticles = articles.slice(0, 5);
 
   return (
     <>
@@ -55,18 +55,18 @@ const Carousel = () => {
         modules={[Autoplay, Pagination, Mousewheel, Navigation]}
         className="mySwiper"
       >
-        {displayedArticles.map((article, index) => (
+        {displayedArticles.map((data, index) => (
           <SwiperSlide key={index}>
-            <a href={article.url} target="_blank" rel="noreferrer">
+            <a href={data.link} target="_blank" rel="noreferrer">
               <img
                 src={
-                  article.urlToImage ||
+                  data.thumbnail ||
                   '/images/world-breaking-news-digital-earth-hud-rotating-globe-rotating-free-video.jpg'
                 }
-                alt={article.title}
+                alt={data.title}
                 onError={() => handleImageError(index)}
               />
-              <p className="absolute">{article.title}</p>
+              <p className="absolute">{data.title}</p>
             </a>
           </SwiperSlide>
         ))}
