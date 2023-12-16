@@ -113,7 +113,7 @@ const Dropdown = ({ onSortFieldChange, onSortOrderChange }) => {
           data-dropdown-toggle="dropdown"
           onMouseEnter={handleOrderMouseEnter}
           onMouseLeave={handleOrderMouseLeave}
-          className="text-black border border-black rounded-lg text-xs md:text-sm px-3 py-2 md:px-5 md:py-2.5 text-center inline-flex items-center cursor-pointer" // Menambahkan cursor-pointer agar tampilan kursor sesuai
+          className="text-black border border-black rounded-lg text-xs md:text-sm px-3 py-2 md:px-5 md:py-2.5 text-center inline-flex items-center cursor-pointer"
         >
           {`Sort ${sortOrder === 'asc' ? 'Ascending' : 'Descending'}`}
           <svg
