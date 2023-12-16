@@ -26,7 +26,7 @@ const Card = ({ sortField, sortOrder }) => {
     const fetchArticles = async () => {
       try {
         const healthNews = await getNewsData();
-        setArticles(healthNews); // Assuming your API response has a 'data' field
+        setArticles(healthNews);
       } catch (error) {
         console.error('Error fetching health news:', error);
       }
@@ -45,7 +45,7 @@ const Card = ({ sortField, sortOrder }) => {
   const sortedArticles = [...articles].sort((a, b) => {
     if (sortField === 'date') {
       return sortOrder === 'asc'
-        ? new Date(b.pubDate) - new Date(a.pubDate) // Reverse the order
+        ? new Date(b.pubDate) - new Date(a.pubDate)
         : new Date(a.pubDate) - new Date(b.pubDate);
     } else if (sortField === 'title') {
       return sortOrder === 'asc'
