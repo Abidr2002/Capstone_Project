@@ -45,11 +45,11 @@ const members = [
   {
     name: 'Ahmad Hauzan Abid Romadhon',
     role: 'Back-End Developer',
-    imageSrc: '/images/profile/abyan.jpg',
+    imageSrc: '/images/profile/abid.jpg',
     socialMedia: [
       { name: 'Instagram', url: 'https://#/' },
-      { name: 'Linkedin', url: 'https://#/' },
-      { name: 'Github', url: 'https://#' },
+      { name: 'Linkedin', url: 'https://https://www.linkedin.com/in/abid-romadhon/' },
+      { name: 'Github', url: 'https://https://github.com/Abidr2002' },
     ],
   },
 ];
